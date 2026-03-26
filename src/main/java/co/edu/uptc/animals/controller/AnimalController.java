@@ -1,11 +1,15 @@
 package co.edu.uptc.animals.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,30 +21,55 @@ import co.edu.uptc.animals.service.AnimalService;
 @RequestMapping("/animals")
 public class AnimalController {
 
-    private final AnimalService service;
+    private final AnimalService animalService;
 
-    public AnimalController(AnimalService service) {
-        this.service = service;
+    @Value("${CONTAINER_NAME:unknown}")
+    private String containerName;
+
+    public AnimalController(AnimalService animalService) {
+        this.animalService = animalService;
     }
 
+    // GET ALL
     @GetMapping
-    public List<Animal> getAll() {
-        return service.getAll();
+    public Map<String, Object> getAllAnimals() {
+        List<Animal> animals = animalService.getAll();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("container", "Soy el contenedor " + containerName);
+        response.put("data", animals);
+
+        return response;
     }
 
-    @PostMapping
-    public Animal create(@RequestBody Animal animal) {
-        return service.save(animal);
-    }
-
+    // GET BY ID
     @GetMapping("/{id}")
-    public Animal getById(@PathVariable Long id) {
-        return service.getById(id);
+    public Animal getAnimalById(@PathVariable Long id) {
+        return animalService.getById(id);
     }
 
+    // CREATE
+    @PostMapping
+    public Animal createAnimal(@RequestBody Animal animal) {
+        return animalService.save(animal);
+    }
+
+    // UPDATE
+    @PutMapping("/{id}")
+    public Animal updateAnimal(@PathVariable Long id, @RequestBody Animal animal) {
+        animal.setId(id);
+        return animalService.save(animal);
+    }
+
+    // DELETE
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public void deleteAnimal(@PathVariable Long id) {
+        animalService.delete(id);
     }
 
+    // WHOAMI (opcional, pero útil)
+    @GetMapping("/whoami")
+    public String whoAmI() {
+        return "Soy el contenedor " + containerName;
+    }
 }

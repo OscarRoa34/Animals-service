@@ -1,5 +1,6 @@
 package co.edu.uptc.animals.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,8 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping()
 public class WhoamiController {
 
+    @Value("${CONTAINER_NAME:unknown}")
+    private String containerName;
+
     @GetMapping("/whoami")
-    public String whoAmI() throws Exception {
-        return java.net.InetAddress.getLocalHost().getHostName();
+    public String whoAmI() {
+        return "Soy el contenedor " + containerName;
     }
 }
