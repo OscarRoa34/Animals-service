@@ -42,4 +42,9 @@ public class AnimalController {
     public void delete(@PathVariable Long id) {
         service.delete(id);
     }
+
+    @GetMapping("/whoami")
+    public String whoAmI() throws Exception {
+        return java.net.InetAddress.getLocalHost().getHostName();
+    }
 }
