@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: animals
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/animals}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:postgres}
+
+  jpa:  
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
