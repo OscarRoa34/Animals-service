@@ -13,7 +13,8 @@ public class WhoamiController {
     private String containerName;
 
     @GetMapping("/whoami")
-    public String whoAmI() {
-        return "Soy el contenedor " + containerName;
+    public String whoAmI() throws Exception {
+        String hostname = java.net.InetAddress.getLocalHost().getHostName();
+        return "Soy el contenedor " + hostname;
     }
 }

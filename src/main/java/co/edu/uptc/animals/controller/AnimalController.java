@@ -30,17 +30,18 @@ public class AnimalController {
         this.animalService = animalService;
     }
 
-    // GET ALL
-    @GetMapping
-    public Map<String, Object> getAllAnimals() {
-        List<Animal> animals = animalService.getAll();
+   @GetMapping
+public Map<String, Object> getAllAnimals() throws Exception {
+    List<Animal> animals = animalService.getAll();
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("container", "Soy el contenedor " + containerName);
-        response.put("data", animals);
+    String hostname = java.net.InetAddress.getLocalHost().getHostName();
 
-        return response;
-    }
+    Map<String, Object> response = new HashMap<>();
+    response.put("container", "Soy el contenedor " + hostname);
+    response.put("data", animals);
+
+    return response;
+}
 
     // GET BY ID
     @GetMapping("/{id}")
