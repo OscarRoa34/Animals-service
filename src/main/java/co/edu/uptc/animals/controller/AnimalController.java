@@ -43,8 +43,4 @@ public class AnimalController {
         service.delete(id);
     }
 
-    @GetMapping("/whoami")
-    public String whoAmI() throws Exception {
-        return java.net.InetAddress.getLocalHost().getHostName();
-    }
 }
